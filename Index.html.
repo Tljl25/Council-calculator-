@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant Compensation Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .calculator {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .calculator input, .calculator button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .calculator label {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2>Tenant Compensation Calculator</h2>
+        <label for="weekly-rent">Total Weekly Rent (£):</label>
+        <input type="number" id="weekly-rent" required>
+        
+        <label for="total-bedrooms">Total Number of Bedrooms:</label>
+        <input type="number" id="total-bedrooms" required>
+        
+        <label for="affected-bedrooms">Affected Bedrooms:</label>
+        <input type="number" id="affected-bedrooms" required>
+        
+        <label for="weeks-reported">Weeks Since Issue Reported:</label>
+        <input type="number" id="weeks-reported" required>
+        
+        <label for="increase">Increase by 10%:</label>
+        <input type="checkbox" id="increase">
+        
+        <button onclick="calculateCompensation()">Calculate Compensation</button>
+        <button onclick="clearCalculator()">Clear</button>
+        
+        <h3 id="result">Compensation: £0.00</h3>
+    </div>
+
+    <script>
+        function calculateCompensation() {
+            const weeklyRent = parseFloat(document.getElementById('weekly-rent').value);
+            const totalBedrooms = parseInt(document.getElementById('total-bedrooms').value);
+            const affectedBedrooms = parseInt(document.getElementById('affected-bedrooms').value);
+            const weeksReported = parseInt(document.getElementById('weeks-reported').value);
+            const increase = document.getElementById('increase').checked;
+            
+            if (isNaN(weeklyRent) || isNaN(totalBedrooms) || isNaN(affectedBedrooms) || isNaN(weeksReported)) {
+                alert('Please enter valid numbers in all fields.');
+                return;
+            }
+
+            let compensation = (weeklyRent / totalBedrooms) * affectedBedrooms * weeksReported;
+            
+            if (increase) {
+                compensation *= 1.10;
+            }
+            
+            document.getElementById('result').textContent = `Compensation: £${compensation.toFixed(2)}`;
+        }
+
+        function clearCalculator() {
+            document.getElementById('weekly-rent').value = '';
+            document.getElementById('total-bedrooms').value = '';
+            document.getElementById('affected-bedrooms').value = '';
+            document.getElementById('weeks-reported').value = '';
+            document.getElementById('increase').checked = false;
+            document.getElementById('result').textContent = 'Compensation: £0.00';
+        }
+    </script>
+</body>
+</html>
